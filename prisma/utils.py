@@ -15,11 +15,14 @@ def caminho(modulo):
     elif isinstance(modulo, Frame):
         return os.path.splitext(modulo.f_code.co_filename)[0]
     else:
-        arquivoDoCodigo = inspect.getsourcefile(modulo)
-        if os.path.dirname(arquivoDoCodigo or '') == camimnhoDoPython:
+        arquivoDoCodigo = inspect.getsourcefile(modulo)or ''
+        if os.path.dirname(arquivoDoCodigo ) == camimnhoDoPython:
             return os.path.splitext(arquivoDoCodigo)[0]
         else:
-            return os.path.dirname(arquivoDoCodigo or '') or '<doctest>'
+            if arquivoDoCodigo.endswith('/doctest'):
+                arquivoDoCodigo = sys._getframe(2).f_locals['test'].filename
+                return os.path.splitext(arquivoDoCodigo)[0]
+            return os.path.dirname(arquivoDoCodigo)
 
 
 def normalizetipo(objetoChamado):

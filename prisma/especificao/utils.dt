@@ -5,16 +5,19 @@ Descrever caminho
 =================
 
 >>> from utils import caminho
+
+>>> class A:pass
+>>> caminho(A)
+'...especificao/utils'
+
 >>> caminho('teste')
 'teste'
 
 >>> caminho(caminho)
-'/.../erpy/erpy'
+'/.../prisma/prisma'
 
 >>> import BeautifulSoup
 >>> caminho(BeautifulSoup)
 '...BeautifulSoup...'
->>> class A:pass
->>> caminho(A)
-'...doctest...'
+
 

@@ -1,6 +1,8 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
 
 import inspect
-import os
 from utils import caminho, normalizetipo
 
 
@@ -71,7 +73,6 @@ class Sinal(object):
         metodo = getattr(objetoChamado, self.metodoChamado())
         return metodo.im_func.func_defaults or []
 
-
     def _nomeDosParametros(self):
         argcount = self._frame.f_code.co_argcount
         if argcount:
@@ -84,7 +85,6 @@ class Sinal(object):
     def _parametros(self):
         return "("+",".join(['%s=%s'%(name, self._normalizetipo(valor))
             for name, valor in self._variaveisLocais()])+')'
-
 
     def ehmetodo(self):
         return any([self._locals().get(nomeDoObjeto, None) for nomeDoObjeto in ('self', "cls")])
