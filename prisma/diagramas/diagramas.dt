@@ -1,0 +1,6 @@
+
+
+1. Diagrama de sequencia para busca de termos.
+        >>> from prisma.engenhariareversa import DiagramaDeSequencia
+        >>> with DiagramaDeSequencia('busca', 'buscando.svg', ['latefm'], restringirPrivados=False):
+        ...      musicas.buscar('mi')

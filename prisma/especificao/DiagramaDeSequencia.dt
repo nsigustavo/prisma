@@ -1,0 +1,29 @@
+Descrição da classe DiagramaDeSequencia
+=======================================
+
+
+Pré-condição
+    >>> from engenhariareversa import DiagramaDeSequencia
+
+1. Ele deveria possuir uma representação elegante:
+    >>> exemplodefault = DiagramaDeSequencia('Exemplo default', 'exemplos/default.svg', ['doctest'])
+    >>> exemplodefault
+    <Diagrama de Sequencia: Exemplo default src(exemplos/default.svg)>
+
+2. Ele deveria criar um arquivo contendo o diagrama vazio:
+    >>> with exemplodefault:
+    ...     pass
+    >>> 'SVG drawin' in open('exemplos/default.svg').read()
+    True
+
+3. Ele deveria criar um arquivo contendo o diagrama:
+    >>> class B:
+    ...     def dois(self):pass
+    >>> class A:
+    ...     def chamada(self):
+    ...         B().dois()
+    >>> with DiagramaDeSequencia('Exemplo com uma chamada', 'exemplos/diagramadesequenciasimples.svg', ['doctest']):
+    ...     A().chamada()
+    >>> 'chamada' in open('exemplos/diagramadesequenciasimples.svg').read()
+    True
+

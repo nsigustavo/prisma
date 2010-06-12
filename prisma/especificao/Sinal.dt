@@ -1,0 +1,51 @@
+Descrição da classe Sinal
+=========================
+
+>>> from core import Sinal
+
+>>> from sys import _getframe
+>>> def exemploDeFrame():
+...     return _getframe()
+>>> frame = exemploDeFrame()
+
+1. Deveria possuir uma representação elegante:
+    >>> Sinal(frame)
+    exemploDeFrame: Sinal
+
+2. Deveria retornar seu namespace:
+    >>> sinal = Sinal(frame)
+    >>> sinal.metodoChamado() #TODO:Talvez trocar para namespace
+    'exemploDeFrame'
+
+    >>> sinal = Sinal(_getframe())
+    >>> sinal.metodoChamado()
+    '<doctest Sinal...>'
+
+3. Deveria retornar a troca de menssagem:
+    >>> sinal = Sinal(frame)
+    >>> sinal.menssagem()
+    'exemploDeFrame()'
+
+4. Deveria retornar a localização do frame:
+    >>> frameDocTest = _getframe(1)
+    >>> sinal = Sinal(frameDocTest)
+    >>> sinal.filename()
+    '...doctest.py'
+
+5. Deveria retornar a localização do frame para um doctest (o 'arquivo' do doctest é simulado):
+    >>> frameDocTest = _getframe(0)
+    >>> sinal = Sinal(frameDocTest)
+    >>> sinal.filename()
+    '<doctest Sinal...>'
+
+6. Deveria retornar a menssagem que ocorreu o sinal com os parametros corrétos:
+    fixture:
+        >>> class T:
+        ...     def exemploDeSinalComParametros(self,a,c=1,b=None, w=True):
+        ...         return _getframe()
+        >>> frame = T().exemploDeSinalComParametros(a='um')
+
+    >>> sinal = Sinal(frame)
+    >>> sinal.menssagem()
+    "exemploDeSinalComParametros(a='um')"
+

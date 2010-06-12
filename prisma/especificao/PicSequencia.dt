@@ -1,0 +1,48 @@
+Descrição da classe PicSequencia
+
+Pré-condição
+    >>> from diagramapic import PicSequencia
+
+1. Ele deve possuir uma representação elegante:
+    >>> teste = PicSequencia(titulo="Teste")
+    >>> teste
+    <PicSequencia: Teste>
+
+2. Dado o passo 1. Ele deve ter um Gráfico padrão (pic) funcional:
+    >>> print teste.picDiagrama()
+    .PS
+    copy "...sequencia.pic";
+    boxwid = 0;
+    boxht = 0;
+    underline = 0;
+    spacing = 0.6;
+    step();
+    .PE
+
+3. Dado o passo 1. Ele deve ativar e desativar um objeto para mandar uma menssagem:
+    fixtures:
+        >>> from ludibrio import Stub
+        >>> with Stub(repr="Raia") as raia:
+        ...     raia.objetoId() >> "ID"
+        ...     raia.inicializeRaia() >> 'object(ID,"Teste");'
+
+    >>> teste.adicionarRaia(raia)
+    >>> teste.ativar("ID")
+    >>> teste.menssagem("ID", "ID", "select()")
+    >>> teste.desativar("ID")
+    >>> print teste.picDiagrama()
+    .PS
+    copy "...sequencia.pic";
+    boxwid = 0;
+    boxht = 0;
+    underline = 0;
+    spacing = 0.6;
+    placeholder_object(IDDum...y);
+    object(ID,"Teste");
+    step();
+    active(ID);
+    message(ID,ID,"select()");
+    inactive(ID);
+    complete(ID);
+    .PE
+

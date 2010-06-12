@@ -1,0 +1,20 @@
+
+
+
+Descrever caminho
+=================
+
+>>> from utils import caminho
+>>> caminho('teste')
+'teste'
+
+>>> caminho(caminho)
+'/.../erpy/erpy'
+
+>>> import BeautifulSoup
+>>> caminho(BeautifulSoup)
+'...BeautifulSoup...'
+>>> class A:pass
+>>> caminho(A)
+'...doctest...'
+

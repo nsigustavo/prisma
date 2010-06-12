@@ -1,0 +1,39 @@
+Descrição da classe Contexto
+============================
+
+
+fixtures
+--------
+
+>>> from ludibrio import Mock, Dummy, Stub
+>>> obchamado = Dummy(repr="Teste")
+>>> with Stub() as id:
+...     id(obchamado) >> 1111
+...     id(obchamado) >> 2222
+>>> import engenhariareversa
+>>> engenhariareversa.id = id
+
+
+
+1. Deveria registrar uma menssagem e rederizar sua sequencia:
+    >>> from engenhariareversa import Contexto
+    >>> with Mock() as sinal:
+    ...     sinal.ehmetodo() >> True
+    ...     sinal.profundidade() >> 1
+    ...     sinal.objetoChamado() >> obchamado
+    ...     sinal.menssagem() >> "metodoTesteChamado(parametros=Qualquer Coisa)"
+    >>> with Mock() as sequencia:
+    ...     sequencia.adicionarRaia(Dummy(repr="Raia")) >> None
+    ...     sequencia.ativar('BBBB') >> None
+    ...     sequencia.adicionarRaia(Dummy(repr="Raia")) >> None
+    ...     sequencia.menssagem('BBBB', 'CCCC', 'metodoTesteChamado(parametros=Qualquer Coisa)') >> None
+    ...     sequencia.adicionarRaia(Dummy(repr='object(CCCC,"Teste");')) >> None
+    ...     sequencia.ativar('CCCC') >> None
+    ...     sequencia.desativar('CCCC') >> None
+    ...     sequencia.desativar('BBBB') >> None
+
+
+    >>> contextoInicial = contexto = Contexto(None,'Testando')
+    >>> contexto = contexto.menssagem(sinal)
+    >>> contextoInicial.rederizar(sequencia=sequencia)
+

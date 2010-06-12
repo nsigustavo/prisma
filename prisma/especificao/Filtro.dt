@@ -1,0 +1,86 @@
+Descrição da classe Filtro
+============================
+
+
+Pré-condição
+    >>> from engenhariareversa import Filtro
+    >>> from ludibrio import Mock
+
+
+1. Deveria ser Verdadeiro se o metodo chamado não for privado:
+    >>> filtrar = Filtro(modulos=['teste'])
+    >>> with Mock() as sinal:
+    ...     sinal.metodoChamado() >> 'teste'
+    >>> filtrar.privados(sinal)
+    True
+    >>> del sinal
+
+2. Deveria ser Verdadeiro, se e somente se, for um metodo chamado:
+    >>> filtrar = Filtro(modulos=['teste'])
+    >>> with Mock() as sinal:
+    ...     sinal.ehmetodo() >> True
+    >>> filtrar.metodos(sinal)
+    True
+    >>> del sinal
+
+    >>> with Mock() as sinal:
+    ...     sinal.ehmetodo() >> False
+    >>> filtrar.metodos(sinal)
+    False
+
+1. Deveria ser Verdadeiro, se e somente se, for dos módulos filtrados:
+    >>> filtrar = Filtro(modulos=['teste'])
+    >>> with Mock() as sinal:
+    ...     sinal.estaContidoEm(['teste']) >> True
+    >>> filtrar.modulos(sinal)
+    True
+    >>> del sinal
+
+    >>> filtrar = Filtro(modulos=['teste'])
+    >>> with Mock() as sinal:
+    ...     sinal.estaContidoEm(['teste']) >> False
+    >>> filtrar.modulos(sinal)
+    False
+    >>> del sinal
+
+4. Deveria ser Verdadeiro para um metodo chamado do modulo 'teste' for 'teste':
+    >>> with Mock() as sinal:
+    ...     sinal.estaContidoEm(['teste']) >> True
+    ...     sinal.ehmetodo() >> True
+    ...     sinal.metodoChamado() >> 'teste'
+    ...     sinal.metodoChamado() >> 'teste'
+    >>> filtrar(sinal)
+    True
+    >>> del sinal
+
+
+
+5. Deveria ser Falso para um metodo privado, se e somente se, restrigir os Privados:
+    >>> with Mock() as sinal:
+    ...     sinal.estaContidoEm(['teste']) >> True
+    ...     sinal.ehmetodo() >> True
+    ...     sinal.metodoChamado() >> 'teste'
+
+    >>> filtrar = Filtro(modulos=['teste'], restringirPrivados=True)
+    >>> filtrar(sinal)
+    True
+
+    >>> del sinal
+
+    >>> with Mock() as sinal:
+    ...     sinal.metodoChamado() >> '_teste'
+
+    >>> filtrar.privados(sinal)
+    False
+
+    >>> del sinal
+
+    >>> with Mock() as sinal:
+    ...     sinal.estaContidoEm(['teste']) >> True
+    ...     sinal.ehmetodo() >> True
+    ...     sinal.metodoChamado() >> '_teste'
+
+    >>> filtrar(sinal)
+    False
+    >>> del sinal
+
